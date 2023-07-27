@@ -38,6 +38,12 @@ class DatabaseService {
         return databaseRepository.findByBambooGoalsToOperationsGreaterThan(higherThanValue * valueToCalculateBambooGoalsToOperations)
     }
 
+    List<BrepEntry> getByOperationSystemAndBambooGoalsDonePercentHigherThan(OperationSystem operationSystem, BigDecimal higherThanValue) {
+        return databaseRepository.getByOperationSystem(operationSystem).findAll {
+            BrepEntry brepEntry -> brepEntry.bambooGoalsDonePercent > higherThanValue
+        }
+    }
+
     private void calculateBambooGoalsToOperationValue(BrepEntry entryToSave) {
         entryToSave.setBambooGoalsToOperations(
                 (entryToSave.bambooGoalsDonePercent.setScale(2, RoundingMode.HALF_UP) * valueToCalculateBambooGoalsToOperations).toLong()

@@ -8,5 +8,6 @@ import org.springframework.stereotype.Repository
 @Repository
 interface DatabaseRepository extends DatastoreRepository<BrepEntry, Long> {
     List<BrepEntry> getByOperationSystem(OperationSystem operationSystem)
+
     List<BrepEntry> findByBambooGoalsToOperationsGreaterThan(Long higherThan)
 }

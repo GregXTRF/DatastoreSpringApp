@@ -87,6 +87,24 @@ class DatabaseServiceTest extends Specification {
         OperationSystem.DEBIAN  | 1
     }
 
+    def "should get BrepEntry by Operation System and BambooGoals Done Percent Higher Than value"(
+            OperationSystem operationSystem, BigDecimal higherThanValue
+    ) {
+        when:
+        List<BrepEntry> entries = databaseService.getByOperationSystemAndBambooGoalsDonePercentHigherThan(
+                operationSystem, higherThanValue
+        )
+        then:
+        noExceptionThrown()
+        !entries.empty
+        entries.size() >= number
+        where:
+        operationSystem         | higherThanValue         | number
+        OperationSystem.WINDOWS | new BigDecimal("20.00") | 1
+        OperationSystem.UBUNTU  | new BigDecimal("10.00") | 1
+        OperationSystem.DEBIAN  | new BigDecimal("1.20")  | 1
+    }
+
     @Ignore
     def "should delete all entries"() {
         when:
